@@ -5,6 +5,7 @@ So, this should be a video converter using QT+ffmpeg, it's currently in a very p
 TODO:
 1. Make a better/user friendly interface;   [kinda done]
 2. Find a way to be able to choose the rendering codec and video format; [done]
+3. Fix the UI freezing [done]
 4. Find a way to be able to render multiple files at the same time; 
 5. Find a way to limit the CPU usage when the process is run in the background (ffmpeg can cause a huge cpu load when rendering multiple files);
 6. Find a way to create a progress bar to let the user know how fast render is going or when it's going to end (check QProcess timers or whatever the fuck it's using when it waits for the process.start to end);
