@@ -6,29 +6,6 @@
 #include <QProcess>
 #include <QtGlobal>
 
-void WinProcessExec() {
-
-    //extract the focking arguments from textedit (is it a dumb way of doing so?)
-    QString inputPath = ui->pathToInputFile->toPlainText();
-    QString outputPath = ui->pathToOutputFolder->toPlainText();
-    QString outputFileName = ui->fileName->toPlainText();
-    QString outputFileFormat = ui->formatList->currentText();
-    //we now form a request
-    QString program{"ffmpeg"};
-    QStringList arguments;
-    arguments << "-i" << inputPath + ' ' << outputPath + '/' + outputFileName + outputFileFormat;
-    //and execute the sysreques
-    QProcess process;
-    process.start(program, arguments);
-    if(process.waitForFinished(-1)) ui->label->setText("SUCCESS!"); //making sure it won't kill the process too early (thx chatgpt <3)
-    else ui->label->setText("FAILED :(");
-
-}
-
-void LinuxProcessExec() {
-
-}
-
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -56,6 +33,22 @@ void MainWindow::on_openInputFolderDialog_clicked()
     ui->pathToOutputFolder->setText(folderPath);
 }
 
+void MainWindow::WinProcessExec() {
+    //extract the focking arguments from textedit (is it a dumb way of doing so?)
+    QString inputPath = ui->pathToInputFile->toPlainText();
+    QString outputPath = ui->pathToOutputFolder->toPlainText();
+    QString outputFileName = ui->fileName->toPlainText();
+    QString outputFileFormat = ui->formatList->currentText();
+    //we now form a request
+    QString program{"ffmpeg"};
+    QStringList arguments;
+    arguments << "-i" << inputPath + ' ' << outputPath + '/' + outputFileName + outputFileFormat;
+    //and execute the sysreques
+    QProcess process;
+    process.start(program, arguments);
+    if(process.waitForFinished(-1)) ui->label->setText("SUCCESS!"); //making sure it won't kill the process too early (thx chatgpt <3)
+    else ui->label->setText("FAILED :(");
+}
 
 void MainWindow::on_buttonConvert_clicked()
 {
@@ -64,10 +57,13 @@ void MainWindow::on_buttonConvert_clicked()
     #endif
 
     #ifdef _WIN32
+    ui->label->setText("_WIN32");
     WinProcessExec();
     #elif _WIN64
+    ui->label->setText("_WIN64");
     WinProcessExec();
     #endif
 
 }
+
 

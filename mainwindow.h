@@ -17,6 +17,8 @@ public:
 
 private slots:
 
+    void WinProcessExec();
+
     void on_openInputFileDialog_clicked();
 
     void on_openInputFolderDialog_clicked();

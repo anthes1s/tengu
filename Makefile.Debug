@@ -711,7 +711,8 @@ debug/mainwindow.o: mainwindow.cpp mainwindow.h \
 		../../6.5.2/mingw_64/include/QtWidgets/qdialog.h \
 		../../6.5.2/mingw_64/include/QtCore/QDir \
 		../../6.5.2/mingw_64/include/QtCore/QProcess \
-		../../6.5.2/mingw_64/include/QtCore/qprocess.h
+		../../6.5.2/mingw_64/include/QtCore/qprocess.h \
+		../../6.5.2/mingw_64/include/QtCore/QtGlobal
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\mainwindow.o mainwindow.cpp
 
 debug/moc_mainwindow.o: debug/moc_mainwindow.cpp 
