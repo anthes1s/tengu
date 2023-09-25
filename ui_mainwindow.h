@@ -111,7 +111,7 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "anthes1s-converter", nullptr));
+        MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "simple-converter", nullptr));
         openInputFileDialog->setText(QCoreApplication::translate("MainWindow", "...", nullptr));
         openInputFolderDialog->setText(QCoreApplication::translate("MainWindow", "...", nullptr));
         buttonConvert->setText(QCoreApplication::translate("MainWindow", "Convert", nullptr));

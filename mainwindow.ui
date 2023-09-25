@@ -20,7 +20,7 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>anthes1s-converter</string>
+   <string>simple-converter</string>
   </property>
   <property name="windowIcon">
    <iconset theme="application-x-executable">
