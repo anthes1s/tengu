@@ -685,8 +685,6 @@ release/mainwindow.o: mainwindow.cpp mainwindow.h \
 		../../6.5.2/mingw_64/include/QtWidgets/QMenuBar \
 		../../6.5.2/mingw_64/include/QtWidgets/qmenubar.h \
 		../../6.5.2/mingw_64/include/QtWidgets/qmenu.h \
-		../../6.5.2/mingw_64/include/QtWidgets/QProgressBar \
-		../../6.5.2/mingw_64/include/QtWidgets/qprogressbar.h \
 		../../6.5.2/mingw_64/include/QtWidgets/QPushButton \
 		../../6.5.2/mingw_64/include/QtWidgets/qpushbutton.h \
 		../../6.5.2/mingw_64/include/QtWidgets/qabstractbutton.h \

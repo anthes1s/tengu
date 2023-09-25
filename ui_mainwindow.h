@@ -16,7 +16,6 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
-#include <QtWidgets/QProgressBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QTextEdit>
 #include <QtWidgets/QToolButton>
@@ -35,7 +34,6 @@ public:
     QTextEdit *fileName;
     QPushButton *buttonConvert;
     QLabel *label;
-    QProgressBar *progressBar;
     QComboBox *formatList;
     QLabel *label_2;
     QLabel *label_3;
@@ -54,7 +52,13 @@ public:
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(MainWindow->sizePolicy().hasHeightForWidth());
         MainWindow->setSizePolicy(sizePolicy);
-        QIcon icon(QIcon::fromTheme(QString::fromUtf8("application-x-executable")));
+        QIcon icon;
+        QString iconThemeName = QString::fromUtf8("application-x-executable");
+        if (QIcon::hasThemeIcon(iconThemeName)) {
+            icon = QIcon::fromTheme(iconThemeName);
+        } else {
+            icon.addFile(QString::fromUtf8("."), QSize(), QIcon::Normal, QIcon::Off);
+        }
         MainWindow->setWindowIcon(icon);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName("centralwidget");
@@ -78,12 +82,7 @@ public:
         buttonConvert->setGeometry(QRect(10, 160, 80, 24));
         label = new QLabel(centralwidget);
         label->setObjectName("label");
-        label->setGeometry(QRect(10, 390, 441, 20));
-        progressBar = new QProgressBar(centralwidget);
-        progressBar->setObjectName("progressBar");
-        progressBar->setGeometry(QRect(10, 410, 440, 26));
-        progressBar->setValue(0);
-        progressBar->setTextVisible(false);
+        label->setGeometry(QRect(10, 410, 441, 20));
         formatList = new QComboBox(centralwidget);
         formatList->setObjectName("formatList");
         formatList->setGeometry(QRect(380, 130, 72, 26));

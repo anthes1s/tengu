@@ -40,18 +40,14 @@ void MainWindow::on_openInputFolderDialog_clicked()
 void MainWindow::WinProcessExec() {
     ui->label->setText("Rendering...");
     //extract the arguments from textedit (is it a dumb way of doing so?)
-    QString inputPath = ui->pathToInputFile->toPlainText();
-    QString outputPath = ui->pathToOutputFolder->toPlainText();
-    QString outputFileName = ui->fileName->toPlainText();
-    QString outputFileFormat = ui->formatList->currentText();
-    //we now form a request
-    QString program{"ffmpeg"};
-    QStringList arguments;
-    arguments << "-i" << inputPath + ' ' << outputPath + '/' + outputFileName + outputFileFormat;
+    //
+    //i can make this more fucked by just creating an oneliner in process.start with anonymous objects, but...?
     //and execute the sysreques asynchronycally to not freeze the UI
     QFuture<void> future = QtConcurrent::run ([=]() {
     QProcess process;
-    process.start(program, arguments);
+        process.start(QString{"ffmpeg"}, QStringList() << "-i"
+                                                       << ui->pathToInputFile->toPlainText() + ' '
+                                                       << ui->pathToOutputFolder->toPlainText() + '/' + ui->fileName->toPlainText() + ui->formatList->currentText());
     if(process.waitForFinished(-1)) ui->label->setText("SUCCESS!"); //making sure it won't kill the process too early (thx chatgpt <3)
     else ui->label->setText("FAILED :(");
     });
