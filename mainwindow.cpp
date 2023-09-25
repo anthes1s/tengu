@@ -5,6 +5,10 @@
 #include <QDir>
 #include <QProcess>
 #include <QtGlobal>
+#include <QThread>
+#include <QObject>
+#include <QFuture>
+#include <QtConcurrent/QtConcurrent>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -34,7 +38,8 @@ void MainWindow::on_openInputFolderDialog_clicked()
 }
 
 void MainWindow::WinProcessExec() {
-    //extract the focking arguments from textedit (is it a dumb way of doing so?)
+    ui->label->setText("Rendering...");
+    //extract the arguments from textedit (is it a dumb way of doing so?)
     QString inputPath = ui->pathToInputFile->toPlainText();
     QString outputPath = ui->pathToOutputFolder->toPlainText();
     QString outputFileName = ui->fileName->toPlainText();
@@ -43,24 +48,24 @@ void MainWindow::WinProcessExec() {
     QString program{"ffmpeg"};
     QStringList arguments;
     arguments << "-i" << inputPath + ' ' << outputPath + '/' + outputFileName + outputFileFormat;
-    //and execute the sysreques
+    //and execute the sysreques asynchronycally to not freeze the UI
+    QFuture<void> future = QtConcurrent::run ([=]() {
     QProcess process;
     process.start(program, arguments);
     if(process.waitForFinished(-1)) ui->label->setText("SUCCESS!"); //making sure it won't kill the process too early (thx chatgpt <3)
     else ui->label->setText("FAILED :(");
+    });
 }
 
 void MainWindow::on_buttonConvert_clicked()
 {
     #ifdef __linux__
-    ui->label->setText("__linux__");
+    ui->label->setText("i couldn't figure out how to makes this work on linux :(");
     #endif
 
-    #ifdef _WIN32
-    ui->label->setText("_WIN32");
+    #ifdef _WIN32    
     WinProcessExec();
     #elif _WIN64
-    ui->label->setText("_WIN64");
     WinProcessExec();
     #endif
 
