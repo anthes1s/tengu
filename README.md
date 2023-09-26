@@ -12,4 +12,5 @@ TODO:
 7. Check if FFMPEG is even installed ❌
 8. Error handle the TextEdits input ❌ [improvements needed]
 9. Make it work on Linux ❌
+10. Find a way to limit the CPU (multiple file CPU load goes up to 100% (THIS IS BAD))
    
