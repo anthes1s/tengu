@@ -678,6 +678,7 @@ debug/mainwindow.o: mainwindow.cpp mainwindow.h \
 		../../6.5.2/mingw_64/include/QtWidgets/qrubberband.h \
 		../../6.5.2/mingw_64/include/QtWidgets/qframe.h \
 		../../6.5.2/mingw_64/include/QtCore/qabstractitemmodel.h \
+		../../6.5.2/mingw_64/include/QtWidgets/QFrame \
 		../../6.5.2/mingw_64/include/QtWidgets/QLabel \
 		../../6.5.2/mingw_64/include/QtWidgets/qlabel.h \
 		../../6.5.2/mingw_64/include/QtGui/qpicture.h \

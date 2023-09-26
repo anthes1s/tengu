@@ -26,34 +26,88 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_openInputFileDialog_clicked()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, "Choose a file...", QDir::homePath());
-    ui->pathToInputFile->setText(fileName);
+    QFileDialog dialog(this);
+    dialog.setDirectory(QDir::homePath());
+    dialog.setFileMode(QFileDialog::ExistingFiles);
+
+    QStringList fileName = dialog.getOpenFileNames(this, "Choose a file...", QDir::homePath());
+
+    QString files{};
+
+    for(int i{0}; i < fileName.size(); ++i) {
+        files += fileName[i] + ' ';
+    }
+
+    ui->pathToInputFile->setText(files);
+
 }
 
 
 void MainWindow::on_openInputFolderDialog_clicked()
 {
-    QString folderPath = QFileDialog::getExistingDirectory(this, "Choose a folder for output file...", QDir::homePath());
-    ui->pathToOutputFolder->setText(folderPath);
+    ui->pathToOutputFolder->setText(QFileDialog::getExistingDirectory(this, "Choose a folder for output file...", QDir::homePath()));
+}
+
+QStringList MainWindow::toStringList(QString str) {
+    QStringList list{};
+
+    qDebug() << str;
+
+    QString tmp = "";
+    for(int i{0}; i < str.size(); ++i) {
+        if(str[i] != ' ') {
+            tmp += str[i];
+        } else {
+            list.push_back(tmp);
+            tmp = "";
+        }
+    }
+
+    return list;
 }
 
 void MainWindow::WinProcessExec() {
-    ui->label->setText("Rendering...");
     //i need to error handle wrong inputs below
+    QString errorMsg{};
 
-    //...error handling...
+    if(ui->pathToInputFile->toPlainText() == "") {
+        errorMsg += "Invalid Input Path ";
+        ui->label->setText(errorMsg);
+        return;
+    }
+    if(ui->pathToOutputFolder->toPlainText() == "") {
+        errorMsg += "Invalid Output Path ";
+        ui->label->setText(errorMsg);
+        return;
+    }
+    if(ui->fileName->toPlainText() == "") {
+        errorMsg += "Invalid File Name ";
+        ui->label->setText(errorMsg);
+        return;
+    }
+
+    ui->label->setText("Rendering...");
+    //creating stringlist to use it for multifile render
+    QString labelInputPath{ui->pathToInputFile->toPlainText()};
+    QStringList inputs = toStringList(labelInputPath);
 
     //and execute the sysreques asynchronycally to not freeze the UI
     QFuture<void> future = QtConcurrent::run ([=](){
     QProcess process;
+        for(int i{0}; i < inputs.size(); ++i) {
+        //error handle the same file name
+            QString fileName{ui->fileName->toPlainText() + QChar{i + 48}}; //this will make filename weird if i > 9;
+                                                                           //so i need to fix this with a standart func or lambda to return proper filex index
+
+
         process.start(QString{"ffmpeg"}, QStringList() << "-i"
-                                                       << ui->pathToInputFile->toPlainText() + ' '
-                                                       << ui->pathToOutputFolder->toPlainText() + '/' + ui->fileName->toPlainText() + ui->formatList->currentText());
+                                                       << inputs[i] + ' '
+                                                           << ui->pathToOutputFolder->toPlainText() + '/' + fileName + ui->formatList->currentText());
 
-    process.waitForFinished(-1) ? ui->label->setText("SUCCESS") : ui->label->setText("FAILED :("); //waiting for a process to finish
-                                                                                                   //you should never return false from it unless its a
-                                                                                                   //wrong input
-
+        process.waitForFinished(-1) ? ui->label->setText("SUCCESS") : ui->label->setText("FAILED :("); //waiting for a process to finish
+                                                                                                       //you should never return false from it unless its a
+                                                                                                       //wrong input
+        }
     });
 }
 

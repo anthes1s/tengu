@@ -16,6 +16,7 @@ public:
     ~MainWindow();
 
 private slots:
+    QStringList toStringList(QString str);
 
     void WinProcessExec();
 
