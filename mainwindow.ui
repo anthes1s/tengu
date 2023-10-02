@@ -36,6 +36,12 @@
       <height>26</height>
      </rect>
     </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+    <property name="placeholderText">
+     <string>Path to an Input File(-s)</string>
+    </property>
    </widget>
    <widget class="QToolButton" name="openInputFileDialog">
     <property name="geometry">
@@ -58,6 +64,12 @@
       <width>413</width>
       <height>26</height>
      </rect>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+    <property name="placeholderText">
+     <string>Path to the File(-s) Output Folder</string>
     </property>
    </widget>
    <widget class="QToolButton" name="openInputFolderDialog">
@@ -82,14 +94,17 @@
       <height>26</height>
      </rect>
     </property>
+    <property name="placeholderText">
+     <string>Enter the name of the file</string>
+    </property>
    </widget>
    <widget class="QPushButton" name="buttonConvert">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>160</y>
-      <width>80</width>
-      <height>24</height>
+      <y>161</y>
+      <width>81</width>
+      <height>26</height>
      </rect>
     </property>
     <property name="text">
@@ -174,20 +189,17 @@
      <string>Input File</string>
     </property>
    </widget>
-   <widget class="QFrame" name="frame">
+   <widget class="QCheckBox" name="checkBox">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>200</y>
-      <width>441</width>
-      <height>211</height>
+      <x>100</x>
+      <y>161</y>
+      <width>351</width>
+      <height>26</height>
      </rect>
     </property>
-    <property name="frameShape">
-     <enum>QFrame::StyledPanel</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Raised</enum>
+    <property name="text">
+     <string>Random Name</string>
     </property>
    </widget>
   </widget>

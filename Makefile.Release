@@ -664,6 +664,9 @@ release/mainwindow.o: mainwindow.cpp mainwindow.h \
 		../../6.5.2/mingw_64/include/QtGui/qinputmethod.h \
 		../../6.5.2/mingw_64/include/QtCore/qlocale.h \
 		../../6.5.2/mingw_64/include/QtGui/qguiapplication_platform.h \
+		../../6.5.2/mingw_64/include/QtWidgets/QCheckBox \
+		../../6.5.2/mingw_64/include/QtWidgets/qcheckbox.h \
+		../../6.5.2/mingw_64/include/QtWidgets/qabstractbutton.h \
 		../../6.5.2/mingw_64/include/QtWidgets/QComboBox \
 		../../6.5.2/mingw_64/include/QtWidgets/qcombobox.h \
 		../../6.5.2/mingw_64/include/QtWidgets/qabstractitemdelegate.h \
@@ -678,7 +681,6 @@ release/mainwindow.o: mainwindow.cpp mainwindow.h \
 		../../6.5.2/mingw_64/include/QtWidgets/qrubberband.h \
 		../../6.5.2/mingw_64/include/QtWidgets/qframe.h \
 		../../6.5.2/mingw_64/include/QtCore/qabstractitemmodel.h \
-		../../6.5.2/mingw_64/include/QtWidgets/QFrame \
 		../../6.5.2/mingw_64/include/QtWidgets/QLabel \
 		../../6.5.2/mingw_64/include/QtWidgets/qlabel.h \
 		../../6.5.2/mingw_64/include/QtGui/qpicture.h \
@@ -688,7 +690,6 @@ release/mainwindow.o: mainwindow.cpp mainwindow.h \
 		../../6.5.2/mingw_64/include/QtWidgets/qmenu.h \
 		../../6.5.2/mingw_64/include/QtWidgets/QPushButton \
 		../../6.5.2/mingw_64/include/QtWidgets/qpushbutton.h \
-		../../6.5.2/mingw_64/include/QtWidgets/qabstractbutton.h \
 		../../6.5.2/mingw_64/include/QtWidgets/QTextEdit \
 		../../6.5.2/mingw_64/include/QtWidgets/qtextedit.h \
 		../../6.5.2/mingw_64/include/QtWidgets/qabstractscrollarea.h \

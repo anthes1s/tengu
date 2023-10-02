@@ -16,6 +16,8 @@ public:
     ~MainWindow();
 
 private slots:
+    QString generate_random_name();
+
     QStringList toStringList(QString str);
 
     void WinProcessExec();
@@ -25,6 +27,8 @@ private slots:
     void on_openInputFolderDialog_clicked();
 
     void on_buttonConvert_clicked();
+
+    void on_checkBox_clicked();
 
 private:
     Ui::MainWindow *ui;

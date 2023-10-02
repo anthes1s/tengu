@@ -12,8 +12,8 @@
 #include <QtCore/QVariant>
 #include <QtGui/QIcon>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QCheckBox>
 #include <QtWidgets/QComboBox>
-#include <QtWidgets/QFrame>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
@@ -40,7 +40,7 @@ public:
     QLabel *label_3;
     QLabel *label_4;
     QLabel *label_5;
-    QFrame *frame;
+    QCheckBox *checkBox;
     QMenuBar *menubar;
 
     void setupUi(QMainWindow *MainWindow)
@@ -67,12 +67,14 @@ public:
         pathToInputFile = new QTextEdit(centralwidget);
         pathToInputFile->setObjectName("pathToInputFile");
         pathToInputFile->setGeometry(QRect(10, 30, 413, 26));
+        pathToInputFile->setReadOnly(true);
         openInputFileDialog = new QToolButton(centralwidget);
         openInputFileDialog->setObjectName("openInputFileDialog");
         openInputFileDialog->setGeometry(QRect(430, 30, 26, 26));
         pathToOutputFolder = new QTextEdit(centralwidget);
         pathToOutputFolder->setObjectName("pathToOutputFolder");
         pathToOutputFolder->setGeometry(QRect(10, 80, 413, 26));
+        pathToOutputFolder->setReadOnly(true);
         openInputFolderDialog = new QToolButton(centralwidget);
         openInputFolderDialog->setObjectName("openInputFolderDialog");
         openInputFolderDialog->setGeometry(QRect(430, 80, 26, 26));
@@ -81,7 +83,7 @@ public:
         fileName->setGeometry(QRect(10, 130, 363, 26));
         buttonConvert = new QPushButton(centralwidget);
         buttonConvert->setObjectName("buttonConvert");
-        buttonConvert->setGeometry(QRect(10, 160, 80, 24));
+        buttonConvert->setGeometry(QRect(10, 161, 81, 26));
         label = new QLabel(centralwidget);
         label->setObjectName("label");
         label->setGeometry(QRect(10, 410, 441, 20));
@@ -100,11 +102,9 @@ public:
         label_5 = new QLabel(centralwidget);
         label_5->setObjectName("label_5");
         label_5->setGeometry(QRect(10, 10, 49, 16));
-        frame = new QFrame(centralwidget);
-        frame->setObjectName("frame");
-        frame->setGeometry(QRect(10, 200, 441, 211));
-        frame->setFrameShape(QFrame::StyledPanel);
-        frame->setFrameShadow(QFrame::Raised);
+        checkBox = new QCheckBox(centralwidget);
+        checkBox->setObjectName("checkBox");
+        checkBox->setGeometry(QRect(100, 161, 351, 26));
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName("menubar");
@@ -119,8 +119,11 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "simple-converter", nullptr));
+        pathToInputFile->setPlaceholderText(QCoreApplication::translate("MainWindow", "Path to an Input File(-s)", nullptr));
         openInputFileDialog->setText(QCoreApplication::translate("MainWindow", "...", nullptr));
+        pathToOutputFolder->setPlaceholderText(QCoreApplication::translate("MainWindow", "Path to the File(-s) Output Folder", nullptr));
         openInputFolderDialog->setText(QCoreApplication::translate("MainWindow", "...", nullptr));
+        fileName->setPlaceholderText(QCoreApplication::translate("MainWindow", "Enter the name of the file", nullptr));
         buttonConvert->setText(QCoreApplication::translate("MainWindow", "Convert", nullptr));
         label->setText(QCoreApplication::translate("MainWindow", "...", nullptr));
         formatList->setCurrentText(QString());
@@ -128,6 +131,7 @@ public:
         label_3->setText(QCoreApplication::translate("MainWindow", "Output Folder", nullptr));
         label_4->setText(QCoreApplication::translate("MainWindow", "Format", nullptr));
         label_5->setText(QCoreApplication::translate("MainWindow", "Input File", nullptr));
+        checkBox->setText(QCoreApplication::translate("MainWindow", "Random Name", nullptr));
     } // retranslateUi
 
 };
