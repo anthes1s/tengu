@@ -13,4 +13,5 @@ TODO:
 8. Error handle the TextEdits input ❌ [improvements needed]
 9. Make it work on Linux ❌
 10. Find a way to limit the CPU (multiple file CPU load goes up to 100% (THIS IS BAD)) ❌
+11. Add Random Output File Name Generator; ✔️
    
