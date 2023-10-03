@@ -50,9 +50,9 @@ void MainWindow::on_openInputFolderDialog_clicked()
     ui->pathToOutputFolder->setText(QFileDialog::getExistingDirectory(this, "Choose a folder for output file...", QDir::homePath()));
 }
 
-QStringList MainWindow::InputFilesToStringList(QString str) {
+QStringList MainWindow::InputFilesToStringList(QString str)
+{
     QStringList list{};
-
     QString tmp = "";
     for(int i{0}; i < str.size(); ++i) {
         if(str[i] != ' ') {
@@ -62,11 +62,12 @@ QStringList MainWindow::InputFilesToStringList(QString str) {
             tmp = "";
         }
     }
-
     return list;
 }
 
-void MainWindow::WinProcessExec() {
+//this need some refactoring
+void MainWindow::WinProcessExec()
+{
     //i need to error handle wrong inputs below    
     QString errorMsg{};
     if(ui->pathToInputFile->toPlainText() == "") {
@@ -84,10 +85,8 @@ void MainWindow::WinProcessExec() {
         ui->label->setText(errorMsg);
         return;
     }
-
     //creating stringlist to use it for multifile render
     QStringList inputs{InputFilesToStringList(ui->pathToInputFile->toPlainText())};
-
     //and execute the sysreques asynchronycally to not freeze the UI
     QFuture<void> future = QtConcurrent::run ([=](){
     QProcess process;
@@ -103,7 +102,6 @@ void MainWindow::WinProcessExec() {
         //also i have to make checkbox disabled somehow during the execution of the process
 
         ui->label->setText("Rendering... " + fileName);
-
         process.start(QString{"ffmpeg"}, QStringList() << "-i"
                                                        << inputs[i] + ' '
                                                        << ui->pathToOutputFolder->toPlainText() + '/' + fileName + ui->formatList->currentText());
@@ -112,6 +110,7 @@ void MainWindow::WinProcessExec() {
         process.waitForFinished(-1) ? ui->label->setText("SUCCESS") : ui->label->setText("FAILED :("); //waiting for a process to finish
                                                                                                        //this should never return false from it unless its a
                                                                                                        //wrong input
+
         }
     });
 }
@@ -124,7 +123,7 @@ void MainWindow::on_buttonConvert_clicked()
     #endif
 
     //windows macro
-    #ifdef _WIN32
+    #ifdef _WIN32 
     WinProcessExec();
     #elif _WIN64
     WinProcessExec();
@@ -134,7 +133,8 @@ void MainWindow::on_buttonConvert_clicked()
 }
 
 //create random name generator;
-QString MainWindow::generate_random_name() {
+QString MainWindow::generate_random_name()
+{
     const int max_name_size{16};
     srand(time(NULL));
     QString dictionary {"1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"};
@@ -156,6 +156,7 @@ void MainWindow::on_checkBox_clicked()
         ui->fileName->setText("Random Name Will Be Generated");
     } else {
       ui->fileName->setReadOnly(false);
+        ui->fileName->setText("");
     }
 }
 

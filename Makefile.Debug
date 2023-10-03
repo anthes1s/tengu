@@ -476,7 +476,10 @@ debug/main.o: main.cpp mainwindow.h \
 		../../6.5.2/mingw_64/include/QtGui/qguiapplication.h \
 		../../6.5.2/mingw_64/include/QtGui/qinputmethod.h \
 		../../6.5.2/mingw_64/include/QtCore/qlocale.h \
-		../../6.5.2/mingw_64/include/QtGui/qguiapplication_platform.h
+		../../6.5.2/mingw_64/include/QtGui/qguiapplication_platform.h \
+		../../6.5.2/mingw_64/include/QtWidgets/QMessageBox \
+		../../6.5.2/mingw_64/include/QtWidgets/qmessagebox.h \
+		../../6.5.2/mingw_64/include/QtWidgets/qdialog.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\main.o main.cpp
 
 debug/mainwindow.o: mainwindow.cpp mainwindow.h \
