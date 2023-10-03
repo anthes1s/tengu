@@ -201,6 +201,9 @@
     <property name="text">
      <string>Random Name</string>
     </property>
+    <property name="checked">
+     <bool>false</bool>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

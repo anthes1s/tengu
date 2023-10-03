@@ -50,10 +50,8 @@ void MainWindow::on_openInputFolderDialog_clicked()
     ui->pathToOutputFolder->setText(QFileDialog::getExistingDirectory(this, "Choose a folder for output file...", QDir::homePath()));
 }
 
-QStringList MainWindow::toStringList(QString str) {
+QStringList MainWindow::InputFilesToStringList(QString str) {
     QStringList list{};
-
-    qDebug() << str;
 
     QString tmp = "";
     for(int i{0}; i < str.size(); ++i) {
@@ -69,9 +67,8 @@ QStringList MainWindow::toStringList(QString str) {
 }
 
 void MainWindow::WinProcessExec() {
-    //i need to error handle wrong inputs below
+    //i need to error handle wrong inputs below    
     QString errorMsg{};
-
     if(ui->pathToInputFile->toPlainText() == "") {
         errorMsg += "Invalid Input Path ";
         ui->label->setText(errorMsg);
@@ -89,8 +86,7 @@ void MainWindow::WinProcessExec() {
     }
 
     //creating stringlist to use it for multifile render
-    QString labelInputPath{ui->pathToInputFile->toPlainText()};
-    QStringList inputs = toStringList(labelInputPath);
+    QStringList inputs{InputFilesToStringList(ui->pathToInputFile->toPlainText())};
 
     //and execute the sysreques asynchronycally to not freeze the UI
     QFuture<void> future = QtConcurrent::run ([=](){
@@ -99,11 +95,12 @@ void MainWindow::WinProcessExec() {
         //error handle the same file name
         //also create a conditional to use a random name checkBox
         QString fileName{};
-
-        if(ui->checkBox->checkState()) {
-        fileName = generate_random_name();
-        } else fileName = ui->fileName->toPlainText() + '_' + QChar{i + 48}; //this will make filename weird if i > 9 (i being a file that is going to be rendered);
-                                                                                 //so i need to fix this with a standart func or lambda to return proper filex index
+        if(!ui->checkBox->checkState()) {
+        fileName = ui->fileName->toPlainText() + '_' + QChar{i + 48};
+        } else fileName = generate_random_name();
+        //this will make filename weird if i > 9 (i being a file that is going to be rendered);
+        //so i need to fix this with a standart func or lambda to return proper filex index
+        //also i have to make checkbox disabled somehow during the execution of the process
 
         ui->label->setText("Rendering... " + fileName);
 
@@ -127,16 +124,19 @@ void MainWindow::on_buttonConvert_clicked()
     #endif
 
     //windows macro
-    #ifdef _WIN32    
+    #ifdef _WIN32
     WinProcessExec();
     #elif _WIN64
     WinProcessExec();
     #endif
+
+    return;
 }
 
 //create random name generator;
 QString MainWindow::generate_random_name() {
     const int max_name_size{16};
+    srand(time(NULL));
     QString dictionary {"1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"};
     QString name{};
 
@@ -153,7 +153,7 @@ void MainWindow::on_checkBox_clicked()
     if(ui->checkBox->checkState()) {
         ui->fileName->setReadOnly(true);
         ui->fileName->clear();
-        ui->fileName->setText(generate_random_name());
+        ui->fileName->setText("Random Name Will Be Generated");
     } else {
       ui->fileName->setReadOnly(false);
     }

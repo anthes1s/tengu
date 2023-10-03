@@ -18,7 +18,7 @@ public:
 private slots:
     QString generate_random_name();
 
-    QStringList toStringList(QString str);
+    QStringList InputFilesToStringList(QString str);
 
     void WinProcessExec();
 

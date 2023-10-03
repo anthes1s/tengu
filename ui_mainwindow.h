@@ -105,6 +105,7 @@ public:
         checkBox = new QCheckBox(centralwidget);
         checkBox->setObjectName("checkBox");
         checkBox->setGeometry(QRect(100, 161, 351, 26));
+        checkBox->setChecked(false);
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName("menubar");
