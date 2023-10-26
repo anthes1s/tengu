@@ -1,61 +1,137 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <QFileDialog>
-#include <QToolButton>
-#include <QDir>
-#include <QProcess>
-#include <QtGlobal>
-#include <QThread>
-#include <QObject>
-#include <QFuture>
-#include <QtConcurrent/QtConcurrent>
 
+#include "render-file-status.h"
 
+static QFormLayout* scroll_area_from_layout{nullptr};
+static RenderStatus* render_status_obj{nullptr};
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->formatList->addItems(QStringList{".mp4", ".webm"});
-    this->setFixedSize(460, 460);
+    ui->scrollAreaWidgetContents->setLayout(scroll_area_from_layout = new QFormLayout());
 }
 
 MainWindow::~MainWindow()
 {
+    delete scroll_area_from_layout;
+    delete render_status_obj;
     delete ui;
 }
 
-void MainWindow::on_openInputFileDialog_clicked()
+
+void MainWindow::on_OD_inputFiles_clicked()
 {
     QFileDialog dialog(this);
     dialog.setDirectory(QDir::homePath());
     dialog.setFileMode(QFileDialog::ExistingFiles);
-
     QStringList fileName = dialog.getOpenFileNames(this, "Choose a file...", QDir::homePath());
-
     QString files{};
-
     for(int i{0}; i < fileName.size(); ++i) {
         files += fileName[i] + ' ';
     }
-
-    ui->pathToInputFile->setText(files);
-
+    ui->TE_inputFiles->setText(files);
 }
 
 
-void MainWindow::on_openInputFolderDialog_clicked()
+void MainWindow::on_OD_outputFolder_clicked()
 {
-    ui->pathToOutputFolder->setText(QFileDialog::getExistingDirectory(this, "Choose a folder for output file...", QDir::homePath()));
+    ui->TE_outputFolder->setText(QFileDialog::getExistingDirectory(this, "Choose a folder for output file...", QDir::homePath()));
 }
 
-QStringList MainWindow::InputFilesToStringList(QString str)
+
+void MainWindow::on_PB_beginConvert_clicked()
+{
+    /*
+    //linux macro
+    #ifdef __linux__
+    #endif
+    //windows macro
+    #ifdef _WIN32  
+    #elif _WIN64
+    #endif
+    */
+
+    QStringList inputs {inputs_to_stringlist(ui->TE_inputFiles->toPlainText())};
+
+    if(!error_handle(inputs)) return;
+
+    bool checkbox_state { ui->GEN_randomName->checkState() ? true : false};
+
+    if(render_status_obj) delete render_status_obj;
+    render_status_obj = new RenderStatus(inputs);
+
+    QFuture<void> future = QtConcurrent::run ([=](){
+        QString outputFileName{ui->TE_outputFileName->toPlainText()};
+        QString pathToOutputFolder{ui->TE_outputFolder->toPlainText()};
+
+        for(int i{0}; i < inputs.size(); ++i) {
+            scroll_area_from_layout->addRow(render_status_obj->getName(i), render_status_obj->getStatus(i));
+        }
+
+        QProcess process;
+        for(int i{0}; i < inputs.size(); ++i) {
+            QString fileName{};
+            if(!checkbox_state) fileName = outputFileName + '_' + QString::number(i);
+            else fileName = generate_random_name();
+            process.start(QString{"ffmpeg"}, QStringList() << "-i"<< inputs[i] + ' ' << pathToOutputFolder + '/' + fileName + ui->CB_outputFileFormat->currentText());
+
+            if(process.waitForFinished(-1)) {
+                render_status_obj->getName(i)->setText(fileName);
+                render_status_obj->getStatus(i)->setText("SUCCESS");
+            } else {
+                render_status_obj->getName(i)->setText(fileName);
+                render_status_obj->getStatus(i)->setText("FAILED");
+            }
+        }        
+    });
+    return;
+}
+
+
+
+void MainWindow::on_GEN_randomName_clicked()
+{
+    //make outputfilename non-editable and generate a random file name
+    if(ui->GEN_randomName->checkState()) {
+        ui->TE_outputFileName->setReadOnly(true);
+        ui->TE_outputFileName->clear();
+        ui->TE_outputFileName->setText("Random Name Will Be Generated");
+    } else {
+        ui->TE_outputFileName->setReadOnly(false);
+        ui->TE_outputFileName->setText("");
+    }
+}
+
+bool MainWindow::error_handle(QStringList inputs) {
+    if(ui->TE_inputFiles->toPlainText() == "") {
+        QMessageBox::critical(this, "Error Occurred", "Please make sure that file name is not empty");
+        return false;
+    }
+    for(int i{0}; i < inputs.size(); ++i) {
+        QFile file {inputs[i]};
+        QFileInfo info{file};
+        if(!file.exists()) {
+            QMessageBox::critical(this, "Error Occurred", file.fileName() + " file doesn't exist, make sure file names don't contain spaces"); // fix to_stringlist()
+            return false;
+        }
+        //check file format
+        if(("." + info.suffix()) == ui->CB_outputFileFormat->currentText()) {
+            QMessageBox::critical(this, "Error Occurred", "Cant convert " + file.fileName() + "\nInput and Output files have the same format");
+            return false;
+        }
+    }
+    return true;
+}
+
+QStringList MainWindow::inputs_to_stringlist(QString str)
 {
     QStringList list{};
     QString tmp = "";
     for(int i{0}; i < str.size(); ++i) {
-        if(str[i] != ' ') {
+        if(str[i] != ' ') { //this makes filename invalid if it has a spacebar
             tmp += str[i];
         } else {
             list.push_back(tmp);
@@ -65,98 +141,17 @@ QStringList MainWindow::InputFilesToStringList(QString str)
     return list;
 }
 
-//this need some refactoring
-void MainWindow::WinProcessExec()
-{
-    //i need to error handle wrong inputs below    
-    QString errorMsg{};
-    if(ui->pathToInputFile->toPlainText() == "") {
-        errorMsg += "Invalid Input Path ";
-        ui->label->setText(errorMsg);
-        return;
-    }
-    if(ui->pathToOutputFolder->toPlainText() == "") {
-        errorMsg += "Invalid Output Path ";
-        ui->label->setText(errorMsg);
-        return;
-    }
-    if(ui->fileName->toPlainText() == "") {
-        errorMsg += "Invalid File Name ";
-        ui->label->setText(errorMsg);
-        return;
-    }
-    //creating stringlist to use it for multifile render
-    QStringList inputs{InputFilesToStringList(ui->pathToInputFile->toPlainText())};
-    //and execute the sysreques asynchronycally to not freeze the UI
-    QFuture<void> future = QtConcurrent::run ([=](){
-    QProcess process;
-        for(int i{0}; i < inputs.size(); ++i) {
-        //error handle the same file name
-        //also create a conditional to use a random name checkBox
-        QString fileName{};
-        if(!ui->checkBox->checkState()) {
-        fileName = ui->fileName->toPlainText() + '_' + QChar{i + 48};
-        } else fileName = generate_random_name();
-        //this will make filename weird if i > 9 (i being a file that is going to be rendered);
-        //so i need to fix this with a standart func or lambda to return proper filex index
-        //also i have to make checkbox disabled somehow during the execution of the process
-
-        ui->label->setText("Rendering... " + fileName);
-        process.start(QString{"ffmpeg"}, QStringList() << "-i"
-                                                       << inputs[i] + ' '
-                                                       << ui->pathToOutputFolder->toPlainText() + '/' + fileName + ui->formatList->currentText());
-                                                       //also add a way to choose a profile and a rendering codec
-
-        process.waitForFinished(-1) ? ui->label->setText("SUCCESS") : ui->label->setText("FAILED :("); //waiting for a process to finish
-                                                                                                       //this should never return false from it unless its a
-                                                                                                       //wrong input
-
-        }
-    });
-}
-
-void MainWindow::on_buttonConvert_clicked()
-{
-    //linux macro
-    #ifdef __linux__
-    ui->label->setText("i couldn't figure out how to make this work on linux :(");
-    #endif
-
-    //windows macro
-    #ifdef _WIN32 
-    WinProcessExec();
-    #elif _WIN64
-    WinProcessExec();
-    #endif
-
-    return;
-}
-
-//create random name generator;
 QString MainWindow::generate_random_name()
 {
-    const int max_name_size{16};
+    const int MAX_NAME_SIZE{16};
     srand(time(NULL));
     QString dictionary {"1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"};
     QString name{};
 
-    for(int i{0}; i < max_name_size; ++i) {
+    for(int i{0}; i < MAX_NAME_SIZE; ++i) {
         name.push_back(dictionary[0 + rand() % (dictionary.size() - 1)]);
     }
 
     return name;
-}
-
-void MainWindow::on_checkBox_clicked()
-{
-//make outputfilename non-editable and generate a random file name
-    if(ui->checkBox->checkState()) {
-        ui->fileName->setReadOnly(true);
-        ui->fileName->clear();
-        ui->fileName->setText("Random Name Will Be Generated");
-    } else {
-      ui->fileName->setReadOnly(false);
-        ui->fileName->setText("");
-    }
 }
 

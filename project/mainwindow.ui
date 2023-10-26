@@ -2,9 +2,6 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
-  <property name="enabled">
-   <bool>true</bool>
-  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -14,69 +11,91 @@
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
-  <property name="windowTitle">
-   <string>simple-converter</string>
+  <property name="minimumSize">
+   <size>
+    <width>460</width>
+    <height>460</height>
+   </size>
   </property>
-  <property name="windowIcon">
-   <iconset theme="application-x-executable">
-    <normaloff>.</normaloff>.</iconset>
+  <property name="maximumSize">
+   <size>
+    <width>460</width>
+    <height>460</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QTextEdit" name="pathToInputFile">
+   <widget class="QTextEdit" name="TE_inputFiles">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>30</y>
-      <width>413</width>
+      <y>10</y>
+      <width>415</width>
       <height>26</height>
      </rect>
-    </property>
-    <property name="readOnly">
-     <bool>true</bool>
     </property>
     <property name="placeholderText">
      <string>Path to an Input File(-s)</string>
     </property>
    </widget>
-   <widget class="QToolButton" name="openInputFileDialog">
-    <property name="geometry">
-     <rect>
-      <x>430</x>
-      <y>30</y>
-      <width>26</width>
-      <height>26</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>...</string>
-    </property>
-   </widget>
-   <widget class="QTextEdit" name="pathToOutputFolder">
+   <widget class="QTextEdit" name="TE_outputFolder">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>80</y>
-      <width>413</width>
+      <y>40</y>
+      <width>415</width>
       <height>26</height>
      </rect>
-    </property>
-    <property name="readOnly">
-     <bool>true</bool>
     </property>
     <property name="placeholderText">
      <string>Path to the File(-s) Output Folder</string>
     </property>
    </widget>
-   <widget class="QToolButton" name="openInputFolderDialog">
+   <widget class="QTextEdit" name="TE_outputFileName">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>70</y>
+      <width>365</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <property name="placeholderText">
+     <string>Enter Output File Name</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="CB_outputFileFormat">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>70</y>
+      <width>71</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>.webm</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>.mp4</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QToolButton" name="OD_inputFiles">
     <property name="geometry">
      <rect>
       <x>430</x>
-      <y>80</y>
+      <y>10</y>
       <width>26</width>
       <height>26</height>
      </rect>
@@ -85,25 +104,38 @@
      <string>...</string>
     </property>
    </widget>
-   <widget class="QTextEdit" name="fileName">
+   <widget class="QToolButton" name="OD_outputFolder">
+    <property name="geometry">
+     <rect>
+      <x>430</x>
+      <y>40</y>
+      <width>26</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>...</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="GEN_randomName">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>100</y>
+      <width>440</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Generate Random Name</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="PB_beginConvert">
     <property name="geometry">
      <rect>
       <x>10</x>
       <y>130</y>
-      <width>363</width>
-      <height>26</height>
-     </rect>
-    </property>
-    <property name="placeholderText">
-     <string>Enter the name of the file</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="buttonConvert">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>161</y>
-      <width>81</width>
+      <width>440</width>
       <height>26</height>
      </rect>
     </property>
@@ -111,99 +143,28 @@
      <string>Convert</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label">
+   <widget class="QScrollArea" name="scrollArea">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>410</y>
-      <width>441</width>
-      <height>20</height>
+      <y>160</y>
+      <width>440</width>
+      <height>270</height>
      </rect>
     </property>
-    <property name="text">
-     <string>...</string>
+    <property name="widgetResizable">
+     <bool>true</bool>
     </property>
-   </widget>
-   <widget class="QComboBox" name="formatList">
-    <property name="geometry">
-     <rect>
-      <x>380</x>
-      <y>130</y>
-      <width>72</width>
-      <height>26</height>
-     </rect>
-    </property>
-    <property name="currentText">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_2">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>110</y>
-      <width>361</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Output File Name</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_3">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>60</y>
-      <width>441</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Output Folder</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_4">
-    <property name="geometry">
-     <rect>
-      <x>380</x>
-      <y>110</y>
-      <width>71</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Format</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_5">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>49</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Input File</string>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="checkBox">
-    <property name="geometry">
-     <rect>
-      <x>100</x>
-      <y>161</y>
-      <width>351</width>
-      <height>26</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Random Name</string>
-    </property>
-    <property name="checked">
-     <bool>false</bool>
-    </property>
+    <widget class="QWidget" name="scrollAreaWidgetContents">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>438</width>
+       <height>268</height>
+      </rect>
+     </property>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
