@@ -27,7 +27,9 @@ private slots:
     bool error_handle(QStringList);
     QStringList inputs_to_stringlist(QString);
     QString generate_random_name();
+    void setInputs(QStringList);
 private:
     Ui::MainWindow *ui;
+    QStringList inputs;
 };
 #endif // MAINWINDOW_H

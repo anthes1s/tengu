@@ -21,6 +21,9 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::setInputs(QStringList strlst){
+    inputs = strlst;
+}
 
 void MainWindow::on_OD_inputFiles_clicked()
 {
@@ -28,6 +31,7 @@ void MainWindow::on_OD_inputFiles_clicked()
     dialog.setDirectory(QDir::homePath());
     dialog.setFileMode(QFileDialog::ExistingFiles);
     QStringList fileName = dialog.getOpenFileNames(this, "Choose a file...", QDir::homePath());
+    setInputs(fileName);
     QString files{};
     for(int i{0}; i < fileName.size(); ++i) {
         files += fileName[i] + ' ';
@@ -53,8 +57,6 @@ void MainWindow::on_PB_beginConvert_clicked()
     #elif _WIN64
     #endif
     */
-
-    QStringList inputs {inputs_to_stringlist(ui->TE_inputFiles->toPlainText())};
 
     if(!error_handle(inputs)) return;
 
@@ -124,21 +126,6 @@ bool MainWindow::error_handle(QStringList inputs) {
         }
     }
     return true;
-}
-
-QStringList MainWindow::inputs_to_stringlist(QString str)
-{
-    QStringList list{};
-    QString tmp = "";
-    for(int i{0}; i < str.size(); ++i) {
-        if(str[i] != ' ') { //this makes filename invalid if it has a spacebar
-            tmp += str[i];
-        } else {
-            list.push_back(tmp);
-            tmp = "";
-        }
-    }
-    return list;
 }
 
 QString MainWindow::generate_random_name()
