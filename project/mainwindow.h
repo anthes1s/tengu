@@ -24,8 +24,7 @@ private slots:
     void on_OD_outputFolder_clicked();
     void on_PB_beginConvert_clicked();
     void on_GEN_randomName_clicked();
-    bool error_handle(QStringList);
-    QStringList inputs_to_stringlist(QString);
+    bool error_handle();
     QString generate_random_name();
     void setInputs(QStringList);
 private:

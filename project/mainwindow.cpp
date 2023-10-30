@@ -4,7 +4,7 @@
 #include "render-file-status.h"
 
 static QFormLayout* scroll_area_from_layout{nullptr};
-static RenderStatus* render_status_obj{nullptr};
+static RenderStatus* render_status{nullptr};
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -17,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete scroll_area_from_layout;
-    delete render_status_obj;
+    delete render_status;
     delete ui;
 }
 
@@ -28,9 +28,8 @@ void MainWindow::setInputs(QStringList strlst){
 void MainWindow::on_OD_inputFiles_clicked()
 {
     QFileDialog dialog(this);
-    dialog.setDirectory(QDir::homePath());
-    dialog.setFileMode(QFileDialog::ExistingFiles);
-    QStringList fileName = dialog.getOpenFileNames(this, "Choose a file...", QDir::homePath());
+    QStringList fileName = dialog.getOpenFileNames(this, "Choose a file...", QDir::homePath(), "Videos (*.mp4 *.webm *.mkv *.avi *.mov)");
+
     setInputs(fileName);
     QString files{};
     for(int i{0}; i < fileName.size(); ++i) {
@@ -58,19 +57,19 @@ void MainWindow::on_PB_beginConvert_clicked()
     #endif
     */
 
-    if(!error_handle(inputs)) return;
+    if(!error_handle()) return;
 
     bool checkbox_state { ui->GEN_randomName->checkState() ? true : false};
 
-    if(render_status_obj) delete render_status_obj;
-    render_status_obj = new RenderStatus(inputs);
+    if(render_status) delete render_status;
+    render_status = new RenderStatus(inputs);
 
     QFuture<void> future = QtConcurrent::run ([=](){
         QString outputFileName{ui->TE_outputFileName->toPlainText()};
         QString pathToOutputFolder{ui->TE_outputFolder->toPlainText()};
 
         for(int i{0}; i < inputs.size(); ++i) {
-            scroll_area_from_layout->addRow(render_status_obj->getName(i), render_status_obj->getStatus(i));
+            scroll_area_from_layout->addRow(render_status->getName(i), render_status->getStatus(i));
         }
 
         QProcess process;
@@ -81,11 +80,11 @@ void MainWindow::on_PB_beginConvert_clicked()
             process.start(QString{"ffmpeg"}, QStringList() << "-i"<< inputs[i] + ' ' << pathToOutputFolder + '/' + fileName + ui->CB_outputFileFormat->currentText());
 
             if(process.waitForFinished(-1)) {
-                render_status_obj->getName(i)->setText(fileName);
-                render_status_obj->getStatus(i)->setText("SUCCESS");
+                render_status->getName(i)->setText(fileName);
+                render_status->getStatus(i)->setText("SUCCESS");
             } else {
-                render_status_obj->getName(i)->setText(fileName);
-                render_status_obj->getStatus(i)->setText("FAILED");
+                render_status->getName(i)->setText(fileName);
+                render_status->getStatus(i)->setText("FAILED");
             }
         }        
     });
@@ -107,11 +106,22 @@ void MainWindow::on_GEN_randomName_clicked()
     }
 }
 
-bool MainWindow::error_handle(QStringList inputs) {
+//TODO: Do a proper error_handling, not this stupid shit;
+bool MainWindow::error_handle() {
     if(ui->TE_inputFiles->toPlainText() == "") {
+        QMessageBox::critical(this, "Error Occurred", "Please make sure that files name is not empty");
+        return false;
+    }
+    if(ui->TE_outputFolder->toPlainText().isEmpty()) {
+        QMessageBox::critical(this, "Error Occurred", "Please make sure that folder name is not empty");
+        return false;
+    }
+
+    if(ui->TE_outputFileName->toPlainText() == "") {
         QMessageBox::critical(this, "Error Occurred", "Please make sure that file name is not empty");
         return false;
     }
+
     for(int i{0}; i < inputs.size(); ++i) {
         QFile file {inputs[i]};
         QFileInfo info{file};

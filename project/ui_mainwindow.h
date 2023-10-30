@@ -65,6 +65,9 @@ public:
         CB_outputFileFormat = new QComboBox(centralwidget);
         CB_outputFileFormat->addItem(QString());
         CB_outputFileFormat->addItem(QString());
+        CB_outputFileFormat->addItem(QString());
+        CB_outputFileFormat->addItem(QString());
+        CB_outputFileFormat->addItem(QString());
         CB_outputFileFormat->setObjectName("CB_outputFileFormat");
         CB_outputFileFormat->setGeometry(QRect(380, 70, 71, 26));
         OD_inputFiles = new QToolButton(centralwidget);
@@ -104,8 +107,11 @@ public:
         TE_inputFiles->setPlaceholderText(QCoreApplication::translate("MainWindow", "Path to an Input File(-s)", nullptr));
         TE_outputFolder->setPlaceholderText(QCoreApplication::translate("MainWindow", "Path to the File(-s) Output Folder", nullptr));
         TE_outputFileName->setPlaceholderText(QCoreApplication::translate("MainWindow", "Enter Output File Name", nullptr));
-        CB_outputFileFormat->setItemText(0, QCoreApplication::translate("MainWindow", ".webm", nullptr));
-        CB_outputFileFormat->setItemText(1, QCoreApplication::translate("MainWindow", ".mp4", nullptr));
+        CB_outputFileFormat->setItemText(0, QCoreApplication::translate("MainWindow", ".mp4", nullptr));
+        CB_outputFileFormat->setItemText(1, QCoreApplication::translate("MainWindow", ".webm", nullptr));
+        CB_outputFileFormat->setItemText(2, QCoreApplication::translate("MainWindow", ".mkv", nullptr));
+        CB_outputFileFormat->setItemText(3, QCoreApplication::translate("MainWindow", ".avi", nullptr));
+        CB_outputFileFormat->setItemText(4, QCoreApplication::translate("MainWindow", ".mov", nullptr));
 
         OD_inputFiles->setText(QCoreApplication::translate("MainWindow", "...", nullptr));
         OD_outputFolder->setText(QCoreApplication::translate("MainWindow", "...", nullptr));
