@@ -8,6 +8,7 @@
 #include <QMessageBox>
 #include <QFuture>
 #include <QtConcurrent/QtConcurrent>
+#include "render-file-status.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -30,5 +31,9 @@ private slots:
 private:
     Ui::MainWindow *ui;
     QStringList inputs;
+    RenderStatus* render_status{nullptr};
+    QString outputFileName;
+    QString pathToOutputFolder;
+    QString outputFileFormat;
 };
 #endif // MAINWINDOW_H
