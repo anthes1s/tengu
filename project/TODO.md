@@ -3,3 +3,4 @@
   * Change Output Video Resolution
   * Change Output Video Bitrate
   * Change Rendering Codec
+2. Create a version for Linux
