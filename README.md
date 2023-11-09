@@ -1,4 +1,4 @@
-# gui-ffmpeg-converter
+# tengu
 qt+ffmpeg video converter
 # Download
-* WIN Release: https://sourceforge.net/p/gui-ffmpeg-converter/
+* Windows Release: https://sourceforge.net/p/gui-ffmpeg-converter/
