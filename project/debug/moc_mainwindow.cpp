@@ -47,11 +47,12 @@ static constexpr auto qt_meta_stringdata_CLASSMainWindowENDCLASS = QtMocHelpers:
     "on_GEN_randomName_clicked",
     "error_handle",
     "generate_random_name",
-    "setInputs"
+    "setInputs",
+    "QStringList&"
 );
 #else  // !QT_MOC_HAS_STRING_DATA
 struct qt_meta_stringdata_CLASSMainWindowENDCLASS_t {
-    uint offsetsAndSizes[18];
+    uint offsetsAndSizes[20];
     char stringdata0[11];
     char stringdata1[25];
     char stringdata2[1];
@@ -61,6 +62,7 @@ struct qt_meta_stringdata_CLASSMainWindowENDCLASS_t {
     char stringdata6[13];
     char stringdata7[21];
     char stringdata8[10];
+    char stringdata9[13];
 };
 #define QT_MOC_LITERAL(ofs, len) \
     uint(sizeof(qt_meta_stringdata_CLASSMainWindowENDCLASS_t::offsetsAndSizes) + ofs), len 
@@ -74,7 +76,8 @@ Q_CONSTINIT static const qt_meta_stringdata_CLASSMainWindowENDCLASS_t qt_meta_st
         QT_MOC_LITERAL(91, 25),  // "on_GEN_randomName_clicked"
         QT_MOC_LITERAL(117, 12),  // "error_handle"
         QT_MOC_LITERAL(130, 20),  // "generate_random_name"
-        QT_MOC_LITERAL(151, 9)   // "setInputs"
+        QT_MOC_LITERAL(151, 9),  // "setInputs"
+        QT_MOC_LITERAL(161, 12)   // "QStringList&"
     },
     "MainWindow",
     "on_OD_inputFiles_clicked",
@@ -84,7 +87,8 @@ Q_CONSTINIT static const qt_meta_stringdata_CLASSMainWindowENDCLASS_t qt_meta_st
     "on_GEN_randomName_clicked",
     "error_handle",
     "generate_random_name",
-    "setInputs"
+    "setInputs",
+    "QStringList&"
 };
 #undef QT_MOC_LITERAL
 #endif // !QT_MOC_HAS_STRING_DATA
@@ -119,7 +123,7 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSMainWindowENDCLASS[] = {
     QMetaType::Void,
     QMetaType::Bool,
     QMetaType::QString,
-    QMetaType::Void, QMetaType::QStringList,    2,
+    QMetaType::Void, 0x80000000 | 9,    2,
 
        0        // eod
 };
@@ -147,7 +151,7 @@ Q_CONSTINIT const QMetaObject MainWindow::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<QString, std::false_type>,
         // method 'setInputs'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        QtPrivate::TypeAndForceComplete<QStringList, std::false_type>
+        QtPrivate::TypeAndForceComplete<QStringList &, std::false_type>
     >,
     nullptr
 } };
@@ -166,7 +170,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
             if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = std::move(_r); }  break;
         case 5: { QString _r = _t->generate_random_name();
             if (_a[0]) *reinterpret_cast< QString*>(_a[0]) = std::move(_r); }  break;
-        case 6: _t->setInputs((*reinterpret_cast< std::add_pointer_t<QStringList>>(_a[1]))); break;
+        case 6: _t->setInputs((*reinterpret_cast< std::add_pointer_t<QStringList&>>(_a[1]))); break;
         default: ;
         }
     }

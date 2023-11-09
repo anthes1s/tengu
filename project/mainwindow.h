@@ -28,13 +28,13 @@ private slots:
     void on_GEN_randomName_clicked();
     bool error_handle();
     QString generate_random_name();
-    void setInputs(QStringList);
+    void setInputs(QStringList&);
 private:
-    Ui::MainWindow *ui;
-    QStringList inputs;
-    RenderStatus* render_status{nullptr};
-    QString outputFileName;
-    QString pathToOutputFolder;
-    QString outputFileFormat;
+    Ui::MainWindow* _ui;
+    QStringList _inputs;
+    RenderStatus* _render_status{nullptr};
+    QString _outputFileName;             // <-
+    QString _pathToOutputFolder;         // <- this probably needs to be wrapped into a different class?
+    QString _outputFileFormat;           // <-
 };
 #endif // MAINWINDOW_H

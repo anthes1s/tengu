@@ -5,7 +5,7 @@
 
 class RenderStatus {
 public:
-    RenderStatus(QStringList);
+    RenderStatus(QStringList&);
     ~RenderStatus();
     QLabel* getName(int);
     QLabel* getStatus(int);

@@ -1,6 +1,6 @@
 #include "render-file-status.h"
 
-RenderStatus::RenderStatus(QStringList str_list)
+RenderStatus::RenderStatus(QStringList& str_list)
 {
     for(int i{0}; i < str_list.size(); ++i) {
         renderName.push_back(new QLabel(str_list[i]));
