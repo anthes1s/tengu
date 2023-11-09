@@ -10,8 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->scrollAreaWidgetContents->setLayout(scroll_area_from_layout = new QFormLayout());
-    srand(time(NULL));
+    ui->scrollAreaWidgetContents->setLayout(scroll_area_from_layout = new QFormLayout());  
 }
 
 MainWindow::~MainWindow()
@@ -95,8 +94,6 @@ void MainWindow::on_PB_beginConvert_clicked()
     return;
 }
 
-
-
 void MainWindow::on_GEN_randomName_clicked()
 {
     //make outputfilename non-editable and generate a random file name
@@ -146,7 +143,7 @@ QString MainWindow::generate_random_name()
     const int MAX_NAME_SIZE{16};    
     QString dictionary {"1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"};
     QString name{};
-
+    srand(time(NULL));
     for(int i{0}; i < MAX_NAME_SIZE; ++i) {
         name.push_back(dictionary[0 + rand() % (dictionary.size() - 1)]);
     }

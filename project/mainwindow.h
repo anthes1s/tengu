@@ -9,6 +9,7 @@
 #include <QFuture>
 #include <QtConcurrent/QtConcurrent>
 #include "render-file-status.h"
+#include <QIcon>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }

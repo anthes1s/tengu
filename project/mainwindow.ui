@@ -29,7 +29,11 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>gui-ffmpeg-converter</string>
+   <string>tengu</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>icon.png</normaloff>icon.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QTextEdit" name="TE_inputFiles">
@@ -76,7 +80,7 @@
      <rect>
       <x>380</x>
       <y>70</y>
-      <width>71</width>
+      <width>76</width>
       <height>26</height>
      </rect>
     </property>

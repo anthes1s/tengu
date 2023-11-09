@@ -10,6 +10,7 @@
 #define UI_MAINWINDOW_H
 
 #include <QtCore/QVariant>
+#include <QtGui/QIcon>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QComboBox>
@@ -51,6 +52,9 @@ public:
         MainWindow->setSizePolicy(sizePolicy);
         MainWindow->setMinimumSize(QSize(460, 460));
         MainWindow->setMaximumSize(QSize(460, 460));
+        QIcon icon;
+        icon.addFile(QString::fromUtf8("icon.png"), QSize(), QIcon::Normal, QIcon::Off);
+        MainWindow->setWindowIcon(icon);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName("centralwidget");
         TE_inputFiles = new QTextEdit(centralwidget);
@@ -70,7 +74,7 @@ public:
         CB_outputFileFormat->addItem(QString());
         CB_outputFileFormat->addItem(QString());
         CB_outputFileFormat->setObjectName("CB_outputFileFormat");
-        CB_outputFileFormat->setGeometry(QRect(380, 70, 71, 26));
+        CB_outputFileFormat->setGeometry(QRect(380, 70, 76, 26));
         OD_inputFiles = new QToolButton(centralwidget);
         OD_inputFiles->setObjectName("OD_inputFiles");
         OD_inputFiles->setGeometry(QRect(430, 10, 26, 26));
@@ -104,7 +108,7 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "gui-ffmpeg-converter", nullptr));
+        MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "tengu", nullptr));
         TE_inputFiles->setPlaceholderText(QCoreApplication::translate("MainWindow", "Path to an Input File(-s)", nullptr));
         TE_outputFolder->setPlaceholderText(QCoreApplication::translate("MainWindow", "Path to the File(-s) Output Folder", nullptr));
         TE_outputFileName->setPlaceholderText(QCoreApplication::translate("MainWindow", "Enter Output File Name", nullptr));
