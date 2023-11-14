@@ -4,3 +4,4 @@
   * Change Output Video Bitrate
   * Change Rendering Codec
 2. Create a version for Linux
+3. Refactor the code in mainwindow.cpp
