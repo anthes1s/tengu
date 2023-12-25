@@ -477,6 +477,12 @@
    <iconset>
     <normaloff>icon.png</normaloff>icon.png</iconset>
   </property>
+  <property name="iconSize">
+   <size>
+    <width>32</width>
+    <height>32</height>
+   </size>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QTextEdit" name="TE_inputFiles">
     <property name="geometry">
@@ -1074,16 +1080,6 @@
      </property>
     </widget>
    </widget>
-  </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>460</width>
-     <height>21</height>
-    </rect>
-   </property>
   </widget>
  </widget>
  <resources/>
